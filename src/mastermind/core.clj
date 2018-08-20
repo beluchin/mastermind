@@ -61,8 +61,6 @@
   (let [hidden (get-new-combination)]
     (println "hidden:" hidden)
     (println "guesses:")
-    (loop [guess (str (read-line))]
-      (let [r (evaluation hidden guess)]
-        (println r)
-        (if (not= 4 (:ok r))
-          (recur (str (read-line))))))))
+    (doseq [r (repeatedly #(evaluation (Integer. (read-line)) hidden))
+            :while (not= 4 (:ok r))]
+      (println r))))
