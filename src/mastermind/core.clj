@@ -1,20 +1,14 @@
 (ns mastermind.core
   (:require [clojure.set :as set]))
 
-(defn combination
-  "selects a new random combination
-  - a random number from 1000 (inclusive) to 9999 (exclusive)"
-  []
-  (+ 1000 (rand-int 9000)))
-
-(defn evaluation [comb1 comb2]
-  (let [m1 (to-map comb1)
-        m2 (to-map comb2)
-        ok-pos (keys (map-intersection m1 m2))
-        remaining-m1 (apply dissoc m1 ok-pos)
-        remaining-m2 (apply dissoc m2 ok-pos)]
-    {:ok    (count ok-pos)
-     :so-so (so-so-count remaining-m1 remaining-m2)}))
+(defn- value-counts
+  "{:1 1, :2 1} -> {1 2} ; only one value (1) and appears in two positions
+   {:0 1, :1 2, :2 1} -> {1 2, 2 1} ; two values: 1 appears twice and 2 once"
+  [amap]
+  (->> amap
+       (group-by second)
+       (map (fn [[f s]] [f (count s)]))
+       (into {})))
 
 (defn- map-intersection
   "{:a 1}, {:a 1} -> {:a 1}
@@ -47,16 +41,28 @@
          (map position-as-kwd)
          (into {}))))
 
-(defn- value-counts
-  "{:1 1, :2 1} -> {1 2} ; only one value (1) and appears in two positions
-   {:0 1, :1 2, :2 1} -> {1 2, 2 1} ; two values: 1 appears twice and 2 once"
-  [amap]
-  (->> amap
-       (group-by second)
-       (map (fn [[f s]] [f (count s)]))
-       (into {})))
+(defn evaluation [comb1 comb2]
+  (let [m1 (to-map comb1)
+        m2 (to-map comb2)
+        ok-pos (keys (map-intersection m1 m2))
+        remaining-m1 (apply dissoc m1 ok-pos)
+        remaining-m2 (apply dissoc m2 ok-pos)]
+    {:ok    (count ok-pos)
+     :so-so (so-so-count remaining-m1 remaining-m2)}))
+
+(defn get-new-combination
+  "selects a new random combination
+  - a random number from 1000 (inclusive) to 9999 (exclusive)"
+  []
+  (+ 1000 (rand-int 9000)))
 
 (defn -main
-  "I don't do a whole lot."
   [& args]
-  (println (combination)))  
+  (let [hidden (get-new-combination)]
+    (println "hidden:" hidden)
+    (println "guesses:")
+    (loop [guess (str (read-line))]
+      (let [r (evaluation hidden guess)]
+        (println r)
+        (if (not= 4 (:ok r))
+          (recur (str (read-line))))))))
