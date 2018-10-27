@@ -9,7 +9,7 @@
 
 (defn execute []
   (let [hidden (get-new-combination)]
-    #_(println "hidden:" hidden)
+    (println "hidden:" hidden)
     (println "guesses:")
     (let [get-guess #(Integer/parseInt (read-line))]
       (doseq [r (repeatedly #(evaluation (get-guess) hidden))
