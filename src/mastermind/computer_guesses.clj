@@ -2,14 +2,35 @@
   (:require [mastermind.computer-guesses.impl :as impl]
             [clojure.string :as s]))
 
+(defmacro ensure-> [x & forms] (throw (UnsupportedOperationException.)))
+
+(defn map* [ok so-so] (throw (UnsupportedOperationException.)))
+
+(defn- two-tokens* [line]
+  (throw (UnsupportedOperationException.))
+  #_(let [line (read-line)
+          tokens (s/split line #" ")]
+      (if-not (= 2 (count tokens))
+        ,,,
+        )))
+
+(defn- only-digits* [t]
+  (throw (UnsupportedOperationException.))
+  #_(let [[ok so-so] (map #(Integer/parseInt %) tokens)]
+      {:ok ok, :so-so so-so}))
+
+(defn print-error [{e :error}] (throw (UnsupportedOperationException.)))
+
 (defn- read-evaluation []
-  (let [line (read-line)
-        tokens (s/split line #" ")]
-    (if (= 2 (count tokens))
-      (let [[ok so-so] (map #(Integer/parseInt %) tokens)]
-        {:ok ok, :so-so so-so})
+  (let [t (ensure->
+            read-line
+            two-tokens*
+            only-digits*)
+        evaluation (fn [[ok so-so]] (map* ok so-so))]
+    (if-not (:error t)
+      (evaluation t)
       (do
-        (println "hmm ... I need two values; first the ok and then the so-so")
+        (print-error t)
         (recur)))))
 
 (defn all-ok? [evaluation]
