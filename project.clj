@@ -12,5 +12,13 @@
                            is-windows (re-find #"(?i)windows" os)]
                        (if is-windows
                          "c:\\temp"
-                         (System/getenv "TEMP")))
-                     "/mastermind/target"))
+                         "/Users/beluchin/tmp"
+
+                         ; TODO: this is failing and I don't know why
+                         ; fix it to avoid hard-coding the paths above
+                         #_(System/getenv "TEMP")
+
+                         ))
+
+                     "/Users/beluchin/tmp"
+                     "/mastermind___/target"))
