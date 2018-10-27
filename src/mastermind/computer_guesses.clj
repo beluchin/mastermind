@@ -4,8 +4,13 @@
 
 (defn- read-evaluation []
   (let [line (read-line)
-        [ok so-so] (into [] (map #(Integer/parseInt %) (s/split line #" ")))]
-    {:ok ok, :so-so so-so}))
+        tokens (s/split line #" ")]
+    (if (= 2 (count tokens))
+      (let [[ok so-so] (map #(Integer/parseInt %) tokens)]
+        {:ok ok, :so-so so-so})
+      (do
+        (println "hmm ... I need two values; first the ok and then the so-so")
+        (recur)))))
 
 (defn all-ok? [evaluation]
   (= 4 (:ok evaluation)))
