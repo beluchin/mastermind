@@ -1,32 +1,30 @@
 (ns mastermind.computer-guesses
   (:require [mastermind.computer-guesses.impl :as impl]
-            [clojure.string :as s]))
-
-(defmacro ensure-> [x & forms] (throw (UnsupportedOperationException.)))
-
-(defn map* [ok so-so] (throw (UnsupportedOperationException.)))
+            [clojure.string :as s]
+            [validation :as v]))
 
 (defn- two-tokens* [line]
-  (throw (UnsupportedOperationException.))
-  #_(let [line (read-line)
-          tokens (s/split line #" ")]
-      (if-not (= 2 (count tokens))
-        ,,,
-        )))
+  (let [tokens (s/split line #" ")]
+    (if-not (= 2 (count tokens))
+      {:error "solo 2 resultados: ok y so-so"}
+      tokens)))
 
-(defn- only-digits* [t]
-  (throw (UnsupportedOperationException.))
-  #_(let [[ok so-so] (map #(Integer/parseInt %) tokens)]
-      {:ok ok, :so-so so-so}))
+(defn- only-digits* [tokens]
+  (let [int-or-nil #(try (Integer/parseInt %) (catch NumberFormatException _ nil))
+        integers (map int-or-nil tokens)
+        digit? #(<= 0 % 9)]
+    (if (every? digit? integers)
+      integers
+      {:error "solo digitos, si?"})))
 
-(defn print-error [{e :error}] (throw (UnsupportedOperationException.)))
+(defn print-error [{e :error}] (println e))
 
 (defn- read-evaluation []
-  (let [t (ensure->
-            read-line
+  (let [t (v/ensure->
+            (read-line)
             two-tokens*
             only-digits*)
-        evaluation (fn [[ok so-so]] (map* ok so-so))]
+        evaluation (fn [[ok so-so]] {:ok ok :so-so so-so})]
     (if-not (:error t)
       (evaluation t)
       (do
