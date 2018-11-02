@@ -13,7 +13,5 @@
     (map #(if (symbol? %) (decorate-symbol %) (decorate-seq %)) forms)))
 
 (defmacro ensure->
-  [x & forms]
-  (if forms
-    `(-> ~x ~@(decorate forms))
-    x))
+  ([x] x)
+  ([x & forms] `(-> ~x ~@(decorate forms))))
