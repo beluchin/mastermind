@@ -17,14 +17,19 @@
       integers
       {:error "solo digitos, si?"})))
 
-(defn print-error [{e :error}] (println e))
+(defn- single-digits-in-range* [digits]
+  (if (every? #(<= % 4) digits)
+    digits
+    {:error "los digitos no pueden ser mayores que 4"}))
 
 (defn- read-evaluation []
   (let [t (v/ensure->
             (read-line)
             two-tokens*
-            only-digits*)
-        evaluation (fn [[ok so-so]] {:ok ok :so-so so-so})]
+            only-digits*
+            single-digits-in-range*)
+        evaluation (fn [[ok so-so]] {:ok ok :so-so so-so})
+        print-error (fn [{e :error}] (println e))]
     (if-not (:error t)
       (evaluation t)
       (do
