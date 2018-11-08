@@ -22,18 +22,34 @@
     digits
     {:error "los digitos no pueden ser mayores que 4"}))
 
+(defn- evaluation-check* [evaluation]
+  (let [sum-no-more-than (fn [e n]
+                           (if (<= (apply + (vals e)) n)
+                             e
+                             {:error (str "la suma tiene que ser menor que " n)}))
+        all-but-one-ok-is-illegal (fn [e n]
+                                    (if (or (< (:ok e) (- n 1)) (not= 1 (:so-so e)))
+                                      e
+                                      {:error "no es posible tener un solo so-so y los demas ok"}))]
+    (v/ensure->
+      evaluation
+      (sum-no-more-than 4)
+      (all-but-one-ok-is-illegal 4))))
+
 (defn- read-evaluation []
-  (let [t (v/ensure->
+  (let [evaluation (fn [[ok so-so]] {:ok ok :so-so so-so})
+        e (v/ensure->
             (read-line)
             two-tokens*
             only-digits*
-            single-digits-in-range*)
-        evaluation (fn [[ok so-so]] {:ok ok :so-so so-so})
+            single-digits-in-range*
+            evaluation
+            evaluation-check*)
         print-error (fn [{e :error}] (println e))]
-    (if-not (:error t)
-      (evaluation t)
+    (if-not (:error e)
+      e
       (do
-        (print-error t)
+        (print-error e)
         (recur)))))
 
 (defn all-ok? [evaluation]
