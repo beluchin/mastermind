@@ -57,9 +57,11 @@
 
 (defn execute []
   (loop [possible-solutions (range 1000 9999)]
-    (let [guess (rand-nth possible-solutions)]
-      (println guess)
-      (let [evaluation (read-evaluation)]
-        (when-not (all-ok? evaluation)
-          (recur (impl/filter-solutions possible-solutions guess evaluation)))))))
+    (if (empty? possible-solutions)
+      (println "hmm, me diste un resultado mal")
+      (let [guess (rand-nth possible-solutions)]
+        (println guess)
+        (let [evaluation (read-evaluation)]
+          (when-not (all-ok? evaluation)
+            (recur (impl/filter-solutions possible-solutions guess evaluation))))))))
 
