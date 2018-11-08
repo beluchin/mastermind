@@ -13,6 +13,6 @@
   [& args]
   (let [subcmd (first args)]
     (condp = subcmd
-      "I-guess" (user-guesses/execute)
+      "I-guess" (user-guesses/execute (rest args))
       "computer-guesses" (computer-guesses/execute)
       (print-incorrect-subcommand))))
