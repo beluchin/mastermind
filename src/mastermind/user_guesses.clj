@@ -6,11 +6,14 @@
 ; TODO implement
 (defn- level [options] (:easy levels))
 
+(defn show-hidden? [options]
+  (some #{"--show-hidden"} options))
+
 (defn execute [options]
   (let [l (level options)
         num-digits (:num-digits l)
         hidden (get-combination l)]
-    #_(println "hidden:" hidden)
+    (when (show-hidden? options) (println "hidden:" hidden))
     (println l)
     (println "guesses:")
     (let [get-guess #(Integer/parseInt (read-line))]
