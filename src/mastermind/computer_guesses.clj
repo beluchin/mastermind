@@ -1,7 +1,9 @@
 (ns mastermind.computer-guesses
   (:require [mastermind.computer-guesses.impl :as impl]
             [clojure.string :as s]
-            [validation :as v]))
+            [validation :as v]
+            [mastermind :refer [levels]]
+            [mastermind.combination :refer [all-combinations]]))
 
 (defn- two-tokens* [line]
   (let [tokens (s/split line #" ")]
@@ -56,12 +58,14 @@
   (= 4 (:ok evaluation)))
 
 (defn execute []
-  (loop [possible-solutions (range 1000 9999)]
-    (if (empty? possible-solutions)
-      (println "hmm, me diste un resultado mal")
-      (let [guess (rand-nth possible-solutions)]
-        (println guess)
-        (let [evaluation (read-evaluation)]
-          (when-not (all-ok? evaluation)
-            (recur (impl/filter-solutions possible-solutions guess evaluation))))))))
+  (let [level (:hard levels)]
+    (println level)
+    (loop [possible-solutions (all-combinations level)]
+      (if (empty? possible-solutions)
+        (println "hmm, me diste un resultado mal")
+        (let [guess (rand-nth possible-solutions)]
+          (println guess)
+          (let [evaluation (read-evaluation)]
+            (when-not (all-ok? evaluation)
+              (recur (impl/filter-solutions possible-solutions guess evaluation)))))))))
 
