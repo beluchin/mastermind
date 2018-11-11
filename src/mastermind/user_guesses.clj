@@ -11,6 +11,7 @@
         num-digits (:num-digits l)
         hidden (get-combination l)]
     #_(println "hidden:" hidden)
+    (println l)
     (println "guesses:")
     (let [get-guess #(Integer/parseInt (read-line))]
       (doseq [r (repeatedly #(evaluation (get-guess) hidden))
