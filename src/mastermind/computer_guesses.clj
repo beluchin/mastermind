@@ -40,14 +40,16 @@
 
 (defn- read-evaluation []
   (let [evaluation (fn [[ok so-so]] {:ok ok :so-so so-so})
-        e (v/ensure->
-            (read-line)
-            two-tokens*
-            only-digits*
-            single-digits-in-range*
-            evaluation
-            evaluation-check*)
+        e (v/ensure-> (read-line)
+                      two-tokens*
+                      only-digits*
+                      single-digits-in-range*
+                      evaluation
+                      evaluation-check*)
+
+        ; duplicated in user-guesses
         print-error (fn [{e :error}] (println e))]
+
     (if-not (:error e)
       e
       (do

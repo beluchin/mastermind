@@ -3,6 +3,7 @@
             [mastermind.combination :refer :all]
             [clojure.set :refer [subset?]]))
 
+; duplicated in user-guesses
 (defn- num-digits [n]
   (count (str n)))
 
