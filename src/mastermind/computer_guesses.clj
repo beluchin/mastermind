@@ -3,17 +3,17 @@
             [clojure.string :as s]
             [validation :as v]
             [mastermind :refer [levels]]
-            [mastermind.combination :refer [all-combinations]]))
+            [mastermind.combination :refer [all-combinations]]
+            [mastermind.presentation :as presentation]))
 
 (defn- two-tokens* [line]
-  (let [tokens (s/split line #" ")]
+  (let [tokens (remove s/blank? (s/split line #" "))]
     (if-not (= 2 (count tokens))
       {:error "solo 2 resultados: ok y so-so"}
       tokens)))
 
 (defn- only-digits* [tokens]
-  (let [int-or-nil #(try (Integer/parseInt %) (catch NumberFormatException _ nil))
-        integers (map int-or-nil tokens)
+  (let [integers (map presentation/int-or-nil tokens)
         digit? #(<= 0 % 9)]
     (if (every? digit? integers)
       integers
@@ -40,7 +40,7 @@
 
 (defn- read-evaluation []
   (let [evaluation (fn [[ok so-so]] {:ok ok :so-so so-so})
-        e (v/ensure-> (read-line)
+        e (v/ensure-> (presentation/read-trimmed-line)
                       two-tokens*
                       only-digits*
                       single-digits-in-range*

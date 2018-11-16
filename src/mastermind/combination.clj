@@ -1,11 +1,6 @@
 (ns mastermind.combination
-  (:require [clojure.set :refer [subset?]]))
-
-(defn- dups? [comb]
-  "1234 -> false; 1231 -> true"
-  (let [s (str comb)
-        n (count s)]
-    (not= n (count (set s)))))
+  (:require [clojure.set :refer [subset?]]
+            [mastermind.utils :refer [dups?]]))
 
 (defn- digit-set [n]
   "1234 -> #{1 2 3 4}; 1231 -> #{1 2 3}"

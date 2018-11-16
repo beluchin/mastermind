@@ -2,10 +2,12 @@
   (:require [mastermind.combination :refer [get-combination]]
             [mastermind.evaluation :refer :all]
             [mastermind :refer [levels]]
-            [validation :refer [ensure->]]))
+            [validation :refer [ensure->]]
+            [mastermind.presentation :refer [read-trimmed-line int-or-nil]]
+            [mastermind.utils :refer [dups?]]))
 
 ; TODO implement
-(defn- level [options] (:easy levels))
+(defn- level [_] (:easy levels))
 
 (defn- show-hidden? [options]
   (some #{"--show-hidden"} options))
@@ -17,12 +19,30 @@
 (defn- correct-number-of-digits [guess level]
   (if (= (:num-digits level) (num-digits guess))
     guess
-    {:error "demasiados digitos ..."}))
+    {:error (str "se requieren " (:num-digits level) " digitos")}))
+
+(defn- a-number [s]
+  (let [n (int-or-nil s)]
+    (if (nil? n)
+      {:error "solo numeros"}
+      n)))
+
+(defn check-duplicates [n level]
+  (if (and (not (:dups level)) (dups? n))
+    {:error "sin repetidos"}
+    n))
+
+(defn- no-zero-in-front [s]
+  (if (not= \0 (first s))
+    s
+    {:error "no zero in front"}))
 
 (defn- read-guess [level]
-  (let [g (ensure-> (read-line)
-                    (#(Integer/parseInt %))
-                    (correct-number-of-digits level))
+  (let [g (ensure-> (read-trimmed-line)
+                    no-zero-in-front
+                    a-number
+                    (correct-number-of-digits level)
+                    (check-duplicates level))
         print-error (fn [{e :error}] (println e))]
     (if-not (:error g)
       g

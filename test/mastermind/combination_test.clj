@@ -1,16 +1,12 @@
 (ns mastermind.combination-test
   (:require [clojure.test :refer :all]
             [mastermind.combination :refer :all]
-            [clojure.set :refer [subset?]]))
+            [clojure.set :refer [subset?]]
+            [mastermind.utils :refer [dups?]]))
 
 ; duplicated in user-guesses
 (defn- num-digits [n]
   (count (str n)))
-
-(defn- dups? [comb]
-  (let [s (str comb)
-        n (count s)]
-    (not= n (count (set s)))))
 
 (defn- random-level
   ([] {:num-digits 4, :dups false, :digits (set (range 0 10))})
