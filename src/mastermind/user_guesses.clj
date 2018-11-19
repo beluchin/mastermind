@@ -37,12 +37,27 @@
     s
     {:error "no zero in front"}))
 
+(defn- digits [n]
+  "1234 -> (seq [1 2 3 4])
+  https://stackoverflow.com/a/29942388/614800"
+  (->> n
+       (iterate #(quot % 10))
+       (take-while pos?)
+       (mapv #(mod % 10))
+       rseq))
+
+(defn- digits-in-range [n level]
+  (if (every? (:digits level) (digits n))
+    n
+    {:error "los digitos no estan en el rango"}))
+
 (defn- read-guess [level]
   (let [g (ensure-> (read-trimmed-line)
                     no-zero-in-front
                     a-number
                     (correct-number-of-digits level)
-                    (check-duplicates level))
+                    (check-duplicates level)
+                    (digits-in-range level))
         print-error (fn [{e :error}] (println e))]
     (if-not (:error g)
       g
