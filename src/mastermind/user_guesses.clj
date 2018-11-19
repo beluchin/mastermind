@@ -3,7 +3,9 @@
             [mastermind.evaluation :refer :all]
             [mastermind :refer [levels]]
             [validation :refer [ensure->]]
-            [mastermind.presentation :refer [read-trimmed-line int-or-nil]]
+            [mastermind.presentation :refer [read-trimmed-line
+                                             int-or-nil
+                                             print-level]]
             [mastermind.utils :refer [dups?]]))
 
 ; TODO implement
@@ -69,7 +71,7 @@
         num-digits (:num-digits l)
         hidden (get-combination l)]
     (when (show-hidden? options) (println "hidden:" hidden))
-    (println l)
+    (print-level l)
     (println "guesses:")
     (doseq [r (repeatedly #(evaluation (read-guess l) hidden))
             :while (not= num-digits (:ok r))]

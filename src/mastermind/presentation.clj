@@ -5,3 +5,7 @@
 
 (defn read-trimmed-line []
   (clojure.string/trim (read-line)))
+
+(defn print-level [l]
+  (println (update l :digits #(sort (vec %)))))
+

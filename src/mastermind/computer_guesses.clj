@@ -61,7 +61,7 @@
 
 (defn execute []
   (let [level (:hard levels)]
-    (println level)
+    (presentation/print-level level)
     (loop [possible-solutions (all-combinations level)]
       (if (empty? possible-solutions)
         (println "hmm, me diste un resultado mal")
