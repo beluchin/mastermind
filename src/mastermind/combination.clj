@@ -10,7 +10,7 @@
   "starting from the sequence of all combinations with the right number of
   digits, filter out according to dups and the digits"
   [{:keys [num-digits dups digits]}]
-  (let [min (int (Math/pow 10 (- num-digits 1)))
+  (let [min (int (Math/pow 10 (dec num-digits)))
         max (int (Math/pow 10 num-digits))
         valid-dups? (if dups (constantly true) (comp not dups?))
         valid-digits? (fn [n] (subset? (digit-set n) digits))
