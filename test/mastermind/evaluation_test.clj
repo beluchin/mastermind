@@ -1,6 +1,6 @@
 (ns mastermind.evaluation-test
   (:require [clojure.test :refer :all]
-            [mastermind.evaluation :refer :all]))
+            [mastermind.domain.evaluation :refer :all]))
 
 (deftest evaluation-all
   (is (= 4 (:ok (evaluation 1234 1234))))
