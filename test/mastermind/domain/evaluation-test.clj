@@ -1,4 +1,4 @@
-(ns mastermind.evaluation-test
+(ns mastermind.domain.evaluation-test
   (:require [clojure.test :refer :all]
             [mastermind.domain.evaluation :refer :all]))
 

@@ -1,4 +1,4 @@
-(ns mastermind.evaluation
+(ns mastermind.domain.evaluation
   (:require [clojure.set :as set]))
 
 (defn- value-counts

@@ -1,12 +1,12 @@
 (ns mastermind.user-guesses
-  (:require [mastermind.combination :refer [get-combination]]
-            [mastermind.evaluation :refer :all]
-            [mastermind :refer [levels]]
-            [validation :refer [ensure->]]
-            [mastermind.presentation :refer [read-trimmed-line
-                                             int-or-nil
-                                             print-level]]
-            [mastermind.utils :refer [dups?]]))
+  (:require [mastermind :refer [levels]]
+            [mastermind.combination :refer [get-combination]]
+            [mastermind.domain.evaluation :refer :all]
+            [mastermind.presentation
+             :refer
+             [int-or-nil print-level read-trimmed-line]]
+            [mastermind.utils :refer [dups?]]
+            [validation :refer [ensure->]]))
 
 ; TODO implement
 (defn- level [_] (:easy levels))
