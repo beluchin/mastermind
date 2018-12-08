@@ -1,7 +1,7 @@
-(ns mastermind.combination-test
-  (:require [clojure.test :refer :all]
-            [mastermind.combination :refer :all]
-            [clojure.set :refer [subset?]]
+(ns mastermind.domain.combination-test
+  (:require [clojure.set :refer [subset?]]
+            [clojure.test :refer :all]
+            [mastermind.domain.combination :refer :all]
             [mastermind.utils :refer [dups?]]))
 
 ; duplicated in user-guesses

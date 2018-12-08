@@ -1,4 +1,4 @@
-(ns mastermind.combination
+(ns mastermind.domain.combination
   (:require [clojure.set :refer [subset?]]
             [mastermind.utils :refer [dups?]]))
 

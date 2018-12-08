@@ -1,10 +1,10 @@
 (ns mastermind.computer-guesses
-  (:require [mastermind.computer-guesses.impl :as impl]
-            [clojure.string :as s]
-            [validation :as v]
+  (:require [clojure.string :as s]
             [mastermind :refer [levels]]
-            [mastermind.combination :refer [all-combinations]]
-            [mastermind.presentation :as presentation]))
+            [mastermind.computer-guesses.impl :as impl]
+            [mastermind.domain.combination :refer [all-combinations]]
+            [mastermind.presentation :as presentation]
+            [validation :as v]))
 
 (defn- two-tokens* [line]
   (let [tokens (remove s/blank? (s/split line #" "))]
