@@ -30,7 +30,7 @@
                              e
                              {:error (str "la suma tiene que ser menor que " n)}))
         all-but-one-ok-is-illegal (fn [e n]
-                                    (if (or (< (:ok e) (- n 1)) (not= 1 (:so-so e)))
+                                    (if (or (< (:ok e) (dec n)) (not= 1 (:so-so e)))
                                       e
                                       {:error "no es posible tener un solo so-so y los demas ok"}))]
     (v/ensure->
