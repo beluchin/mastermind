@@ -1,6 +1,6 @@
 (ns mastermind.computer-guesses
   (:require [clojure.string :as s]
-            [mastermind :refer [levels]]
+            [mastermind.app.level :refer [levels]]
             [mastermind.computer-guesses.impl :as impl]
             [mastermind.domain.combination :refer [all-combinations]]
             [mastermind.presentation :as presentation]

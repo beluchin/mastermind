@@ -1,5 +1,5 @@
 (ns mastermind.user-guesses
-  (:require [mastermind :refer [levels]]
+  (:require [mastermind.app.level :refer [levels]]
             [mastermind.domain.combination :refer [get-combination]]
             [mastermind.domain.evaluation :refer :all]
             [mastermind.presentation
