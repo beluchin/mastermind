@@ -1,4 +1,4 @@
-(ns mastermind.utils)
+(ns mastermind.domain.utils)
 
 (defn dups? [n]
   "1234 -> false; 1231 -> true"

@@ -2,7 +2,7 @@
   (:require [clojure.set :refer [subset?]]
             [clojure.test :refer :all]
             [mastermind.domain.combination :refer :all]
-            [mastermind.utils :refer [dups?]]))
+            [mastermind.domain.utils :refer [dups?]]))
 
 ; duplicated in user-guesses
 (defn- num-digits [n]

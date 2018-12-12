@@ -2,10 +2,10 @@
   (:require [mastermind.app.level :refer [levels]]
             [mastermind.domain.combination :refer [get-combination]]
             [mastermind.domain.evaluation :refer :all]
+            [mastermind.domain.utils :refer [dups?]]
             [mastermind.presentation
              :refer
              [int-or-nil print-level read-trimmed-line]]
-            [mastermind.utils :refer [dups?]]
             [validation :refer [ensure->]]))
 
 ; TODO implement

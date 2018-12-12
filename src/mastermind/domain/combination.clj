@@ -1,6 +1,6 @@
 (ns mastermind.domain.combination
   (:require [clojure.set :refer [subset?]]
-            [mastermind.utils :refer [dups?]]))
+            [mastermind.domain.utils :refer [dups?]]))
 
 (defn- digit-set [n]
   "1234 -> #{1 2 3 4}; 1231 -> #{1 2 3}"
