@@ -6,9 +6,8 @@
 
   ;; flycheck-clojure setup
   :dependencies [[org.clojure/clojure "1.9.0"]
-                 [org.clojure/core.typed "0.5.3"  :classifier "slim"]]
-  ;; Use lein-environ plugin if you want to set checker configuration in profile.
-  :plugins [[lein-environ "1.1.0"]]
+                 [org.clojure/core.typed "0.5.3"  :classifier "slim"]
+                 [tortue/spy "1.4.0"]]
   ;; Configuration here may be overridden by namespace metadata.
   :profiles {:dev {:env {:squiggly {:checkers [:eastwood :typed :kibit]
                                     :eastwood-exclude-linters [:unlimited-use]
