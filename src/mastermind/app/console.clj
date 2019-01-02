@@ -1,10 +1,10 @@
 (ns mastermind.app.console)
 
-(defn printable [level]
-  (update level :digits #(sort (vec %))))
+(defn read-trimmed-line [] (read-line))
 
-(defn print-level [l]
-  (print (printable l)))
+(comment
 
-(defn game-started [_]
-  (print-level 42))
+;; print many lines
+(println "line 1" "line 2")
+
+)

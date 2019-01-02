@@ -1,7 +1,13 @@
 (ns mastermind.app.user-guesses-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.test :as t]
             [mastermind.app.level :refer :all]
-            [mastermind.app.user-guesses :refer :all]))
+            [mastermind.app.user-guesses :as sut]))
 
-(deftest default-level
-  (is (= (:easy levels) (:level (new-game)))))
+(t/deftest default-level-is-easy
+  (t/is (= (:level (sut/new-game)) (:easy levels))))
+
+(t/deftest input-as-guess
+  (t/is (= (sut/guess-or-error "1234") 1234)))
+
+(t/deftest not-a-number
+  (t/is (= (:error (sut/guess-or-error "not an int")) :not-a-number)))

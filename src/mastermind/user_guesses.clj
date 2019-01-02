@@ -23,7 +23,7 @@
     guess
     {:error (str "se requieren " (:num-digits level) " digitos")}))
 
-(defn- a-number [s]
+(defn- an-int [s]
   (let [n (int-or-nil s)]
     (if (nil? n)
       {:error "solo numeros"}
@@ -56,7 +56,7 @@
 (defn- read-guess [level]
   (let [g (ensure-> (read-trimmed-line)
                     no-zero-in-front
-                    a-number
+                    an-int
                     (correct-number-of-digits level)
                     (check-duplicates level)
                     (digits-in-range level))

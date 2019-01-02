@@ -1,0 +1,47 @@
+
+M-^ | join lines, with point on the line to join
+C-e C-m | move to end of line and add new line.
+C-e C-j | same as above and indent
+M-SPC | just-one-space
+M-\ | join two words
+
+
+--- projectile
+C-c p | prefix
+f | find file in project
+sg | grep in project
+
+
+-- cider
+C-M-k | deletes balanced expression forward | https://practicalli.github.io/spacemacs/structured-editing/emacs-killing-code-softly.html
+M-. | cider-find-var
+C-c M-n r | cider-ns-refresh | useful to get rid of old definitions hanging around
+C-cdd | C-cd d | cider-doc | show doc for symbol at point
+-- test
+C-c C-t | prefix
+t | cider-test-run-test | run test at point 
+g | cider-test-rerun-test | re-run rest 
+-- evaluate
+C-xe | C-ce | cider-eval-last-sexp
+C-c M-e | cider-eval-last-sexp-to-repl | if invoked with a prefix, takes you to the REPL buffer after being invoked
+C-cv r | cider-eval-region | output to echo buffer
+C-cjr | cider-insert-region-in-repl
+C-M-n C-ce | go to end of list form and evaluate
+
+
+-- refactor
+C-c C-m | prefix
+ar | add require and jump back
+is | inline symbol
+
+
+-- paredit
+C-<right> | paredit-forward-slurp-sexp
+C-M-f | forward | move forward one sexp
+C-M-b | backward | move backward one sexp
+C-M-n | forward-up
+C-M-u | backward-up | move backward a containING sexp
+C-M-p | backward-down | have not found a use for this
+C-M-d | forward-down | move forward a containED sexp
+C-M-k | kill next expr
+C-M-t | transpose-sexpr | transpose prev and next expressions
