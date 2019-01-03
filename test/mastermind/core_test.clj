@@ -2,11 +2,13 @@
   (:require [mastermind.core :as sut]
             [clojure.test :as t]
             [spy.core :as spy]
-            [mastermind.domain :as domain]))
+            [mastermind.domain :as domain]
+            [mastermind.app.console :as console]))
 
 (t/deftest user-guesses-end-to-end
-  (with-redefs [read-line (constantly "1234")
+  (with-redefs [console/read-until-no-error (constantly 1234)
                 rand-nth (constantly 1234)] 
+    #_(t/is (= (console/read-until-no-error identity) 1234))
     (t/is (nil? (sut/-main "I-guess")))))
 
 (t/deftest prints-level-when-game-starts
