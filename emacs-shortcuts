@@ -37,6 +37,7 @@ is | inline symbol
 
 -- paredit
 C-<right> | paredit-forward-slurp-sexp
+C-M-SPC | select sexp after point
 C-M-f | forward | move forward one sexp
 C-M-b | backward | move backward one sexp
 C-M-n | forward-up

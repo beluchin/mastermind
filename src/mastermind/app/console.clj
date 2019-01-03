@@ -1,4 +1,5 @@
-(ns mastermind.app.console)
+(ns mastermind.app.console
+  (:require [clojure.string :as str]))
 
 (def errors-in-spanish
   {:not-a-number "hmm, solo numeros"
@@ -6,7 +7,7 @@
 
 (def error-dict errors-in-spanish)
 
-(defn read-trimmed-line [] (read-line))
+(defn- read-trimmed-line [] (str/trim (read-line)))
 
 (defn read-until-no-error [f]
   (letfn [(translate [e] (e error-dict (:default error-dict)))
