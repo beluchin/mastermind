@@ -1,9 +1,17 @@
 (ns mastermind.app.console)
 
+(def errors-in-spanish
+  {:not-a-number "hmm, solo numeros"
+   :default "algo no esta bien"})
+
+(def error-dict errors-in-spanish)
+
 (defn read-trimmed-line [] (read-line))
 
 (defn read-until-no-error [f]
-  (first (drop-while :error (repeatedly #(f (read-trimmed-line))))))
+  (letfn [(translate [e] (e error-dict (:default error-dict)))
+          (error [{e :error}] (when e (println (translate e)) e))]
+    (first (drop-while error (repeatedly #(f (read-trimmed-line)))))))
 
 
 (comment
@@ -21,4 +29,9 @@
 (f) ;; "b"
 (f) ;; nil
 
+(letfn [(translate [e] (e errors-in-spanish (:default errors-in-spanish)))
+        (error [{e :error}] (when e (println (translate e)) e))]
+  (error {:error :not-translatable}))
+
+(:x errors-in-spanish (:default errors-in-spanish))
 )
