@@ -1,9 +1,11 @@
 (ns mastermind.app.user-guesses
-  (:require [mastermind.app.level :refer :all]
+  (:require [mastermind.app.console :as console]
+            [mastermind.app.level :as level]
             [mastermind.app.utils :as u]
             [mastermind.domain :as domain]
-            [validation :as v]
-            [mastermind.app.console :refer [read-until-no-error]]))
+            [mastermind.domain.combination :as combination]
+            [mastermind.domain.evaluation :as evaluation]
+            [validation :as v]))
 
 (defn- an-int [s]
   (let [n (u/int-or-nil s)]
@@ -15,17 +17,19 @@
   (v/ensure-> txt
               an-int))
 
-(defrecord Game [level]
+(defrecord Game [level hidden]
   domain/Playable
-  (get-next-guess [game] (read-until-no-error guess-or-error))
-  (get-answer [_ _])
-  (notify [_ _ _])
-  (num-digits [_]))
+  (get-next-guess [_] (console/read-until-no-error guess-or-error))
+  (get-answer [_ guess] (evaluation/evaluation guess hidden))
+  (notify [_ _ answer] (console/display answer))
+  (num-digits [_] (:num-digits level)))
+
+(def default-level (:easy level/levels))
 
 (defn new-game
   "new game for the user to guess. Contains the :level"
   []
-  (Game. (:easy levels)))
+  (let [level default-level] (Game. level (combination/get-combination level))))
 
 
 (comment

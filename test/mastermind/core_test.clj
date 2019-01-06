@@ -3,13 +3,15 @@
             [clojure.test :as t]
             [spy.core :as spy]
             [mastermind.domain :as domain]
-            [mastermind.app.console :as console]))
+            [mastermind.app.console :as console]
+            [mastermind.app.user-guesses :as user-guesses]
+            [mastermind.domain.combination :as combination]))
 
 (t/deftest user-guesses-end-to-end
-  (with-redefs [console/read-until-no-error (constantly 1234)
-                rand-nth (constantly 1234)] 
-    #_(t/is (= (console/read-until-no-error identity) 1234))
-    (t/is (nil? (sut/-main "I-guess")))))
+  (let [hidden (combination/get-combination user-guesses/default-level)]
+    (with-redefs [console/read-until-no-error (constantly hidden)
+                  rand-nth (constantly hidden)] 
+      (t/is (nil? (sut/-main "I-guess"))))))
 
 (t/deftest prints-level-when-game-starts
   (with-redefs [sut/print-level (spy/mock (fn [_] nil))

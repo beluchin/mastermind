@@ -14,6 +14,7 @@
           (error [{e :error}] (when e (println (translate e)) e))]
     (first (drop-while error (repeatedly #(f (read-trimmed-line)))))))
 
+(defn display [x] (println x))
 
 (comment
 

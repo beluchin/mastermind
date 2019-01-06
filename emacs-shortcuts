@@ -10,6 +10,7 @@ M-\ | join two words
 C-c p | prefix
 f | find file in project
 sg | grep in project
+t | toggle between src and test
 
 
 -- cider
@@ -27,6 +28,10 @@ C-c M-e | cider-eval-last-sexp-to-repl | if invoked with a prefix, takes you to 
 C-cv r | cider-eval-region | output to echo buffer
 C-cjr | cider-insert-region-in-repl
 C-M-n C-ce | go to end of list form and evaluate
+-- REPL
+C-cl | load file in REPL
+C-cjd | defun to REPL
+C-cje | las sexp to REPL
 
 
 -- refactor
@@ -36,6 +41,8 @@ is | inline symbol
 
 
 -- paredit
+M-s | splice | (hell|o) -> hell|o
+M-q | indent form
 C-<right> | paredit-forward-slurp-sexp
 C-M-SPC | select sexp after point
 C-M-f | forward | move forward one sexp
