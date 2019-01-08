@@ -13,6 +13,9 @@
                   rand-nth (constantly hidden)] 
       (t/is (nil? (sut/-main "I-guess"))))))
 
+(t/deftest computer-guesses-end-to-end 
+  (t/is (nil? (sut/-main "computer-guesses"))))
+
 (t/deftest prints-level-when-game-starts
   (with-redefs [sut/print-level (spy/mock (fn [_] nil))
                 domain/play (spy/mock (fn [_] nil))]
