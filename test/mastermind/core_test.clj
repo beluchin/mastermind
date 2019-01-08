@@ -15,9 +15,13 @@
 
 (t/deftest prints-level-when-game-starts
   (with-redefs [sut/print-level (spy/mock (fn [_] nil))
-                domain/play (spy/mock (fn [_] nil))] 
-    (sut/-main "I-guess")
-    (t/is (spy/called-once? sut/print-level))))
+                domain/play (spy/mock (fn [_] nil))]
+    (t/are [switch] (do
+                      (spy/reset-spy! sut/print-level)
+                      (sut/-main switch)
+                      (spy/called-once? sut/print-level))
+      "computer-guesses"
+      "I-guess")))
 
 (t/deftest digits-are-sorted-on-printable-level
   (let [level {:digits #{1 2 3}}]

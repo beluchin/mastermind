@@ -1,5 +1,6 @@
 (ns mastermind.core
-  (:require [mastermind.app.user-guesses :as user-guesses]
+  (:require [mastermind.app.computer-guesses :as computer-guesses]
+            [mastermind.app.user-guesses :as user-guesses]
             [mastermind.domain :refer [play]]))
 
 (defn printable [level]
@@ -11,16 +12,28 @@
 (defn print-header [game]
   (print-level game))
 
-(defn -main [& args]
-  (let [game (user-guesses/new-game)]
-    (print-header game)
-    (play game)))
+(defn- game-constructor-fn-or-error [subcmd]
+  (condp = subcmd
+    "I-guess" user-guesses/new-game
+    "computer-guesses" computer-guesses/new-game
+    :error))
 
-(comment
-(defn print-incorrect-subcommand []
+(defn- print-incorrect-subcommand []
   (println (clojure.string/join
              "\n"
              ["Incorrect subcommand. Possible choices are:"
                "I-guess"
               "computer-guesses"])))
+
+(defn -main [& args]
+  (let [subcmd (first args)
+        game-constructor-fn (game-constructor-fn-or-error subcmd)]
+    (if-not (= :error game-constructor-fn)
+      (let [game (game-constructor-fn)]
+        (print-header game)
+        (play game))
+      (print-incorrect-subcommand))))
+
+(comment
+
 )
