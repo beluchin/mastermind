@@ -1,24 +1,22 @@
 (ns mastermind.core-test
-  (:require [mastermind.core :as sut]
-            [clojure.test :as t]
-            [spy.core :as spy]
-            [mastermind.domain :as domain]
-            [mastermind.app.console :as console]
+  (:require [clojure.test :as t]
+            [mastermind.app.computer-guesses :as computer-guesses]
             [mastermind.app.user-guesses :as user-guesses]
+            [mastermind.core :as sut]
+            [mastermind.domain :as domain]
             [mastermind.domain.combination :as combination]
-            [mastermind.app.computer-guesses :as computer-guesses]))
+            [spy.core :as spy]))
 
 (t/deftest user-guesses-end-to-end
   (let [hidden (combination/get-combination user-guesses/default-level)]
-    (with-redefs [console/read-until-no-error (constantly hidden)
-                  rand-nth (constantly hidden)] 
+    (with-redefs [rand-nth (constantly hidden)
+                  read-line (constantly (str hidden))] 
       (t/is (nil? (sut/-main "I-guess"))))))
 
 (t/deftest computer-guesses-end-to-end 
-  (let [level computer-guesses/default-level]
-    (with-redefs
-      [read-line (constantly (str (:num-digits level) " 0"))]
-      (t/is (nil? (sut/-main "computer-guesses"))))))
+  (with-redefs
+    [read-line (constantly (format "%d 0" (:num-digits computer-guesses/default-level)))]
+    (t/is (nil? (sut/-main "computer-guesses")))))
 
 (t/deftest prints-level-when-game-starts
   (with-redefs [sut/print-level (spy/mock (fn [_] nil))
