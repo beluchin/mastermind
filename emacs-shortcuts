@@ -18,6 +18,7 @@ C-M-k | deletes balanced expression forward | https://practicalli.github.io/spac
 M-. | cider-find-var
 C-c M-n r | cider-ns-refresh | useful to get rid of old definitions hanging around
 C-cdd | C-cd d | cider-doc | show doc for symbol at point
+C-M-i | complete symbol
 -- test
 C-c C-t | prefix
 t | cider-test-run-test | run test at point 
@@ -30,7 +31,7 @@ C-cjr | cider-insert-region-in-repl
 C-M-n C-ce | go to end of list form and evaluate
 -- REPL
 C-cl | load file in REPL
-C-cjd | defun to REPL
+C-cjd | C-cj d | defun to REPL
 C-cje | las sexp to REPL
 
 
