@@ -23,6 +23,13 @@
                          (spy/called-with? println txt))
         :not-a-number "not a number" ;; known errors
         :unknown-error "catch all")))  ;; catch-all
+
+  (t/testing "missing :default in error-dict"
+    (with-redefs [read-line (spy/stub "whatever")
+                  println (spy/spy println)]
+      (t/is (do
+              (sut/read-until-no-error {} (returning-fn {:error :anything} 1234))
+              (spy/called-with? println "something is wrong")))))
   
   (t/testing "trimmed input"
     (with-redefs [read-line (spy/stub "     1234       ")]

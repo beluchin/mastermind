@@ -4,7 +4,7 @@
 (defn- read-trimmed-line [] (str/trim (read-line)))
 
 (defn read-until-no-error [error-dict f]
-  (letfn [(translate [e] (e error-dict (:default error-dict)))
+  (letfn [(translate [e] (e error-dict (:default error-dict "something is wrong")))
           (error [{e :error}] (when e (println (translate e)) e))]
     (first (drop-while error (repeatedly #(f (read-trimmed-line)))))))
 
