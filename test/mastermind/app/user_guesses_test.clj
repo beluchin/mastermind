@@ -6,8 +6,11 @@
 (t/deftest default-level-is-easy
   (t/is (= (:level (sut/new-game)) (:easy levels))))
 
-(t/deftest input-as-guess
-  (t/is (= (sut/guess-or-error "1234") 1234)))
+(t/deftest guess-or-error
+  (t/testing "converts to int"
+    (t/is (= (sut/guess-or-error "1234") 1234)))
 
-(t/deftest not-a-number
-  (t/is (= (:error (sut/guess-or-error "not an int")) :not-a-number)))
+  (t/testing "error conditions"
+    (t/are [in out] (= out (:error (sut/guess-or-error in)))
+      "not an int" :not-a-number
+      "01234" :zero-not-allowed-in-front)))
