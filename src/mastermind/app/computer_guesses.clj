@@ -17,7 +17,7 @@
   (get-next-guess [_] (rand-nth possible-solutions))
   (get-answer [_ guess]
     (console/display guess)
-    (console/read-until-no-error answer-or-error))
+    (console/read-until-no-error {} answer-or-error))
   (notify [_ guess answer])
   (num-digits [_] (:num-digits level)))
 

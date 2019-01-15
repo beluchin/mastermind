@@ -5,7 +5,8 @@
             [mastermind.domain :as domain]
             [mastermind.domain.combination :as combination]
             [mastermind.domain.evaluation :as evaluation]
-            [validation :as v]))
+            [validation :as v]
+            [mastermind.app.user-guesses.error :as error]))
 
 (defn- an-int [s]
   (let [n (u/int-or-nil s)]
@@ -13,13 +14,19 @@
       {:error :not-a-number}
       n)))
 
+(defn- no-zero-in-front [s]
+  (if (not= \0 (first s))
+    s
+    {:error :zero-in-front}))
+
 (defn guess-or-error [txt]
   (v/ensure-> txt
+              no-zero-in-front
               an-int))
 
 (defrecord Game [level hidden]
   domain/Playable
-  (get-next-guess [_] (console/read-until-no-error guess-or-error))
+  (get-next-guess [_] (console/read-until-no-error error/error-dict guess-or-error))
   (get-answer [_ guess] (evaluation/evaluation guess hidden))
   (notify [_ _ answer] (console/display answer))
   (num-digits [_] (:num-digits level)))

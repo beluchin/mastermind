@@ -8,20 +8,25 @@
   (t/testing "reads until no errors"
     (with-redefs [read-line (spy/stub "whatever")]
       (t/is (= 1234
-               (sut/read-until-no-error (returning-fn {:error :x} {:error :another-error} 1234))))))
+               (sut/read-until-no-error
+                {}
+                (returning-fn {:error :x} {:error :another-error} 1234))))))
 
   (t/testing "translates errors"
     (with-redefs [read-line (spy/stub "whatever")
                   println (spy/spy println)]
 
-      (t/are [e txt] (do (sut/read-until-no-error (returning-fn {:error e} 1234))
+      (t/are [e txt] (do (sut/read-until-no-error
+                          {:not-a-number "not a number"
+                           :default "catch all"}
+                          (returning-fn {:error e} 1234))
                          (spy/called-with? println txt))
-        :not-a-number (:not-a-number sut/error-dict) ;; known errors
-        :unknown-error (:default sut/error-dict))))  ;; catch-all
+        :not-a-number "not a number" ;; known errors
+        :unknown-error "catch all")))  ;; catch-all
   
   (t/testing "trimmed input"
     (with-redefs [read-line (spy/stub "     1234       ")]
-      (t/is (= "1234" (sut/read-until-no-error identity))))))
+      (t/is (= "1234" (sut/read-until-no-error {} identity))))))
 
 (comment
 

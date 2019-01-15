@@ -13,4 +13,4 @@
   (t/testing "error conditions"
     (t/are [in out] (= out (:error (sut/guess-or-error in)))
       "not an int" :not-a-number
-      "01234" :zero-not-allowed-in-front)))
+      "01234" :zero-in-front)))
