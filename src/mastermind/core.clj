@@ -36,4 +36,17 @@
 
 (comment
 
+  (defn call-service
+    [arg1 arg2 callback-fn]
+    ;; ...perform service call, eventually invoking callback-fn with results...
+    (future (callback-fn (+ arg1 arg2) (- arg1 arg2))))
+
+  (defn sync-fn
+    [async-fn]
+    (fn [& args]
+      (let [result (promise)]
+        (apply async-fn (conj (vec args) #(deliver result %&)))
+        @result)))
+
+  ((sync-fn call-service) 8 7)
 )
