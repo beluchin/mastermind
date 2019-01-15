@@ -32,7 +32,7 @@ C-M-n C-ce | go to end of list form and evaluate
 -- REPL
 C-cl | load file in REPL
 C-cjd | C-cj d | defun to REPL
-C-cje | las sexp to REPL
+C-cje | last sexp to REPL
 
 
 -- refactor
