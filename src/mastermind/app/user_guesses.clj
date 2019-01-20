@@ -24,12 +24,14 @@
               no-zero-in-front
               an-int))
 
-(defrecord Game [level hidden]
+(defrecord Game [level hidden])
+
+(extend-type Game
   domain/Playable
   (get-next-guess [_] (console/read-until-no-error error/error-dict guess-or-error))
-  (get-answer [_ guess] (evaluation/evaluation guess hidden))
+  (get-answer [game guess] (evaluation/evaluation guess (:hidden game)))
   (notify [_ _ answer] (console/display answer))
-  (num-digits [_] (:num-digits level)))
+  (num-digits [game] (:num-digits (:level game))))
 
 (def default-level (:easy level/levels))
 
