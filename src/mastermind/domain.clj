@@ -15,22 +15,9 @@
 
 (defn play 
   ([game]
-   (play (game :level) (game :code-breaker) (game :code-maker))
-   #_(loop []
-     
-       ;; TODO: replace the loop with something like do-until or repeatedly
-       ;; or something like that ...
-
-       (let [guess (get-next-guess game)
-             answer (get-answer game guess)]
-         (when-not (= (num-digits game) (:ok answer))
-           (notify game guess answer)
-           (recur)))))
-
+   (play (get-in game [:level :num-digits]) (game :code-breaker) (game :code-maker)))
   ([num-digits code-breaker code-maker]
-   (get-next-guess* code-breaker)
-   (println (rand-nth []))
-   #_(loop []
+   (loop []
 
      ;; TODO: replace the loop with something like do-until or repeatedly
      ;; or something like that ...
