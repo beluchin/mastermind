@@ -29,10 +29,12 @@ C-c M-e | cider-eval-last-sexp-to-repl | if invoked with a prefix, takes you to 
 C-cv r | cider-eval-region | output to echo buffer
 C-cjr | cider-insert-region-in-repl
 C-M-n C-ce | go to end of list form and evaluate
+C-u C-ce | evaluate and insert result at point | ({:a 1} :a) ;; | -> ({:a 1} :a) ;; 1
 -- REPL
 C-cl | load file in REPL
 C-cjd | C-cj d | defun to REPL
 C-cje | last sexp to REPL
+cider-repl-clear-buffer
 
 
 -- refactor

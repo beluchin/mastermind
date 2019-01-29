@@ -1,5 +1,6 @@
 (ns mastermind.core-test
   (:require [clojure.test :as t]
+            [mastermind.app.auto :as auto]
             [mastermind.app.computer-guesses :as computer-guesses]
             [mastermind.app.user-guesses :as user-guesses]
             [mastermind.core :as sut]
@@ -18,6 +19,14 @@
     [read-line (constantly (format "%d 0" (:num-digits computer-guesses/default-level)))]
     (t/is (nil? (sut/-main "computer-guesses")))))
 
+(t/deftest auto-end-to-end
+  (let [level auto/default-level
+        code (combination/get-combination level)]
+    (with-redefs [rand-nth (constantly code)
+                  println (spy/mock (fn [& args]))]
+      (t/is (do (sut/-main "auto")
+                (spy/called-with? println code))))))
+
 (t/deftest prints-level-when-game-starts
   (with-redefs [sut/print-level (spy/mock (fn [_] nil))
                 domain/play (spy/mock (fn [_] nil))]
@@ -26,7 +35,8 @@
                       (sut/-main switch)
                       (spy/called-once? sut/print-level))
       "computer-guesses"
-      "I-guess")))
+      "I-guess"
+      "auto")))
 
 (t/deftest digits-are-sorted-on-printable-level
   (let [level {:digits #{1 2 3}}]

@@ -33,7 +33,7 @@
   (notify [_ _ answer] (console/display answer))
   (num-digits [game] (:num-digits (:level game))))
 
-(def default-level (:easy level/levels))
+(def ^:const default-level (:easy level/levels))
 
 (defn new-game
   "new game for the user to guess. Contains the :level"
