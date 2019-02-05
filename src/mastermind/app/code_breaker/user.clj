@@ -7,6 +7,7 @@
 (def ^:private errors-in-spanish
   {:not-a-number "hmm, solo numeros"
    :zero-in-front "no se permiten ceros al inicio"
+   :too-many-digits "muchos digitos. Son menos"
    :default "algo no esta bien"})
 
 (defn ^:private an-int [s]
@@ -20,17 +21,28 @@
     s
     {:error :zero-in-front}))
 
-(defn guess-or-error [txt]
+; duplicated in combination-test
+(defn ^:private num-digits [n]
+  (count (str n)))
+
+(defn ^:private correct-number-of-digits [guess level]
+  (if (= (:num-digits level) (num-digits guess))
+    guess
+    {:error :too-many-digits}))
+
+(defn guess-or-error [level txt]
   (validation/ensure-> txt
               no-zero-in-front
-              an-int))
+              an-int
+              (correct-number-of-digits level)))
 
-(defrecord ^:private User [level])
+(defrecord ^:private CodeBreaker [level])
 
-(extend-type User
+(extend-type CodeBreaker
   domain/CodeBreaker
-  (get-next-guess [_] 
-    (console/read-until-no-error errors-in-spanish guess-or-error))
+  (get-next-guess [this]
+    (console/read-until-no-error errors-in-spanish
+                                 (partial guess-or-error (:level this))))
   (notify [_ feedback] (console/display feedback)))
 
-(defn new-code-breaker [level] (->User level))
+(defn new-code-breaker [level] (->CodeBreaker level))
