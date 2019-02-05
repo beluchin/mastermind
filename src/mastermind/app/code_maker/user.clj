@@ -4,6 +4,12 @@
             [mastermind.app.utils :as utils]
             [mastermind.domain :as domain]))
 
+(def ^:private errors-in-spanish
+  {:not-a-number "hmm, solo numeros"
+   :zero-in-front "no se permiten ceros al inicio"
+   :too-many-digits "muchos digitos. Son menos"
+   :default "algo no esta bien"})
+
 (defrecord ^:private CodeMaker [level])
 
 (defn ^:private answer-or-error [txt]
