@@ -7,7 +7,7 @@
 (defn new-game []
   {:level default-level
    :code-breaker (reify domain/CodeBreaker
-                   (get-next-guess* [_]
+                   (get-next-guess [_]
                      (let [guess (rand-nth [])]
                        (println guess)
                        guess)))

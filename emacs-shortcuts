@@ -56,3 +56,7 @@ C-M-p | backward-down | have not found a use for this
 C-M-d | forward-down | move forward a containED sexp
 C-M-k | kill next expr
 C-M-t | transpose-sexpr | transpose prev and next expressions
+
+
+-- ido
+C-l | on the minibuffer, to refresh the cache contents
