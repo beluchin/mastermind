@@ -1,13 +1,14 @@
 (ns mastermind.app.code-breaker.user
   (:require [mastermind.app.console :as console]
             [mastermind.app.utils :as utils]
-            [mastermind.domain :as domain]
+            [mastermind.domain.utils :as domain-utils]
             [validation :as v]))
 
 (def ^:private errors-in-spanish
   {:not-a-number "hmm, solo numeros"
    :zero-in-front "no se permiten ceros al inicio"
    :too-many-digits "muchos digitos. Son menos"
+   :dups "sin repetidos"
    :default "algo no esta bien"})
 
 (defn ^:private an-int [s]
@@ -30,11 +31,17 @@
     guess
     {:error :too-many-digits}))
 
+(defn ^:private check-duplicates [n level]
+  (if (and (not (:dups level)) (domain-utils/dups? n))
+    {:error :dups}
+    n))
+
 (defn guess-or-error [level txt]
   (validation/ensure-> txt
               no-zero-in-front
               an-int
-              (correct-number-of-digits level)))
+              (correct-number-of-digits level)
+              (check-duplicates level)))
 
 (defrecord ^:private CodeBreaker [level])
 

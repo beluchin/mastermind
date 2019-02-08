@@ -11,4 +11,6 @@
       (t/are [in out] (= out (:error (sut/guess-or-error level in)))
         "not an int" :not-a-number
         "01234" :zero-in-front
-        "1234" :too-many-digits))))
+        "1234" :too-many-digits
+        "112" :dups ;; because the level does not allow dups
+        ))))
