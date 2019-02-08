@@ -1,6 +1,7 @@
 (ns mastermind.app.code-breaker.user
   (:require [mastermind.app.console :as console]
             [mastermind.app.utils :as utils]
+            [mastermind.domain :as domain]
             [mastermind.domain.utils :as domain-utils]
             [validation :as v]))
 
