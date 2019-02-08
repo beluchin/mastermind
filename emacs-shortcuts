@@ -11,6 +11,7 @@ C-c p | prefix
 f | find file in project
 sg | grep in project
 t | toggle between src and test
+i | invalidate-cache | useful when projectile shows as options files that do not exist
 
 
 -- cider
