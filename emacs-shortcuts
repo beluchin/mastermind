@@ -20,6 +20,7 @@ M-. | cider-find-var
 C-c M-n r | cider-ns-refresh | useful to get rid of old definitions hanging around
 C-cdd | C-cd d | cider-doc | show doc for symbol at point
 C-M-i | complete symbol
+C-cu | cider-undef | undef var for namespace on buffer
 -- test
 C-c C-t | prefix
 t | cider-test-run-test | run test at point 

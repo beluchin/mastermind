@@ -3,13 +3,15 @@
             [mastermind.domain.combination :as combination]
             [mastermind.domain.evaluation :as evaluation]))
 
+(declare ->CodeMaker)
+
+(defn new-code-maker [level] (->CodeMaker (combination/get-combination level)))
+
 (defrecord ^:private CodeMaker [code])
 
 (extend-type CodeMaker
   domain/CodeMaker
   (get-feedback [this guess] (evaluation/evaluation guess (:code this))))
-
-(defn new-code-maker [level] (->CodeMaker (combination/get-combination level)))
 
 
 (comment

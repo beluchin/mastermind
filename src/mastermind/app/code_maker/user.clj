@@ -5,6 +5,10 @@
             [mastermind.domain :as domain]
             [validation :as validation]))
 
+(declare ->CodeMaker)
+
+(defn new-code-maker [level] (->CodeMaker level))
+
 (def ^:private errors-in-spanish
   {:default "algo no esta bien"
    :two-tokens "solo 2 resultados: ok y so-so"
@@ -38,5 +42,3 @@
   (get-feedback [_ guess]
     (console/display guess)
     (console/read-until-no-error errors-in-spanish feedback-or-error)))
-
-(defn new-code-maker [level] (->CodeMaker level))
