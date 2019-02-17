@@ -42,6 +42,7 @@ cider-repl-clear-buffer
 C-c C-m | prefix
 ar | add require and jump back
 is | inline symbol
+fe | function from example
 
 
 -- paredit

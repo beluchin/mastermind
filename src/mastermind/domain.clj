@@ -5,7 +5,7 @@
 
 (defprotocol CodeBreaker
   (get-next-guess [this])
-  (notify [this feedback]))
+  (notify [this guess feedback]))
 
 (defn play 
   ([game]
@@ -19,5 +19,5 @@
      (let [guess (get-next-guess code-breaker)
            feedback (get-feedback code-maker guess)]
        (when-not (= num-digits (:ok feedback))
-         (notify code-breaker feedback)
+         (notify code-breaker guess feedback)
          (recur))))))

@@ -51,6 +51,6 @@
   (get-next-guess [this]
     (console/read-until-no-error errors-in-spanish
                                  (partial guess-or-error (:level this))))
-  (notify [_ feedback] (console/display feedback)))
+  (notify [_ _ feedback] (console/display feedback)))
 
 (defn new-code-breaker [level] (->CodeBreaker level))
