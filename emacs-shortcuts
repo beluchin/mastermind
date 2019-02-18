@@ -19,7 +19,7 @@ C-M-k | deletes balanced expression forward | https://practicalli.github.io/spac
 M-. | cider-find-var
 C-c M-n r | cider-ns-refresh | useful to get rid of old definitions hanging around
 C-cdd | C-cd d | cider-doc | show doc for symbol at point
-C-M-i | complete symbol
+C-M-i | M-TAB | complete symbol
 C-cu | cider-undef | undef var for namespace on buffer
 -- test
 C-c C-t | prefix
@@ -50,7 +50,7 @@ fe | function from example
 M-s | splice | (hell|o) -> hell|o
 M-q | indent form
 C-<right> | paredit-forward-slurp-sexp
-C-M-SPC | select sexp after point
+C-M-SPC | mark-sexp | select sexp after point
 C-M-f | forward | move forward one sexp
 C-M-b | backward | move backward one sexp
 C-M-n | forward-up

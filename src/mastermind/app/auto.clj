@@ -1,18 +1,21 @@
 (ns mastermind.app.auto
-  (:require [mastermind.app.level :as level]
+  (:require [mastermind.app.code-breaker.machine :as machine-cb]
+            [mastermind.app.code-maker.machine :as machine-cm]
+            [mastermind.app.level :as level]
             [mastermind.domain :as domain]))
 
 (def ^:const default-level (level/levels :expert))
 
 (defn new-game []
   {:level default-level
-   :code-breaker (reify domain/CodeBreaker
-                   (get-next-guess [_]
-                     (let [guess (rand-nth [])]
-                       (println guess)
-                       guess)))
-   :code-maker (reify domain/CodeMaker
-                 (get-feedback [_ _] {:ok (default-level :num-digits)}))})
+   :code-breaker (let [cb (machine-cb/new-code-breaker default-level)]
+                   (reify domain/CodeBreaker
+                     (get-next-guess [this]
+                       (let [result (domain/get-next-guess cb)]
+                         (println result)
+                         result))
+                     (notify [this guess feedback] (domain/notify cb guess feedback))))
+   :code-maker (machine-cm/new-code-maker default-level)})
 
 (comment
   ({:a 1} :a) ;; 1 
