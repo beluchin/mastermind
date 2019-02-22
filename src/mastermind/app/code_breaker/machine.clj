@@ -10,6 +10,8 @@
 
 (defn get-next-guess [cb] (rand-nth @(:possible-solutions cb)))
 
+(declare filter-solutions)
+
 (defn notify
   [cb guess feeback]
   (swap! (:possible-solutions cb) filter-solutions guess feeback))

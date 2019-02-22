@@ -4,6 +4,7 @@
             [mastermind.app.code-breaker.machine :as machine-cb]
             [mastermind.app.code-maker.machine :as machine-cm]
             [mastermind.app.computer-guesses :as computer-guesses]
+            [mastermind.app.console :as console]
             [mastermind.app.user-guesses :as user-guesses]
             [mastermind.core :as sut]
             [mastermind.domain :as domain]
@@ -30,9 +31,10 @@
                   machine-cm/get-feedback (returning/returning-fn 
                                            {:ok 0} 
                                            {:ok (:num-digits level)})
-                  println (spy/spy println)]
+                  console/display (spy/spy console/display)]
       (t/is (do (sut/-main "auto")
-                (= ['(1) '({:ok 0}) '(2)] (subvec (spy/calls println) 1)))))))
+                (= ['(1) '({:ok 0}) '(2)] 
+                   (spy/calls console/display)))))))
 
 (t/deftest prints-level-when-game-starts
   (with-redefs [sut/print-level (spy/mock (fn [_] nil))

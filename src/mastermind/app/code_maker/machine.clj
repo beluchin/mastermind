@@ -7,11 +7,13 @@
 
 (defn new-code-maker [level] (->CodeMaker (combination/get-combination level)))
 
+(defn get-feedback [cm guess] (evaluation/evaluation guess (:code cm)))
+
 (defrecord ^:private CodeMaker [code])
 
 (extend-type CodeMaker
   domain/CodeMaker
-  (get-feedback [this guess] (get-feedback guess this)))
+  (get-feedback [this guess] (get-feedback this guess)))
 
 
 (comment

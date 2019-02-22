@@ -1,6 +1,7 @@
 (ns mastermind.app.auto
   (:require [mastermind.app.code-breaker.machine :as machine-cb]
             [mastermind.app.code-maker.machine :as machine-cm]
+            [mastermind.app.console :as console]
             [mastermind.app.level :as level]
             [mastermind.domain :as domain]))
 
@@ -12,10 +13,10 @@
                    (reify domain/CodeBreaker
                      (get-next-guess [this]
                        (let [result (domain/get-next-guess cb)]
-                         (println result)
+                         (console/display result)
                          result))
                      (notify [this guess feedback]
-                       (println feedback)
+                       (console/display feedback)
                        (domain/notify cb guess feedback))))
    :code-maker (machine-cm/new-code-maker default-level)})
 

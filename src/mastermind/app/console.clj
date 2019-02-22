@@ -1,15 +1,17 @@
 (ns mastermind.app.console
   (:require [clojure.string :as str]))
 
-(defn- read-trimmed-line [] (str/trim (read-line)))
+(declare read-trimmed-line)
 
 (defn read-until-no-error [error-dict f]
   (letfn [(translate [e] (e error-dict (:default error-dict "something is wrong")))
           (error [{e :error}] (when e (println (translate e)) e))]
     (first (drop-while error (repeatedly #(f (read-trimmed-line)))))))
 
-;; TODO turn into (def display println)
-(defn display [x] (println x))
+(def display println)
+
+(defn- read-trimmed-line [] (str/trim (read-line)))
+
 
 (comment
 
