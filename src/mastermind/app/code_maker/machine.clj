@@ -11,7 +11,7 @@
 
 (extend-type CodeMaker
   domain/CodeMaker
-  (get-feedback [this guess] (evaluation/evaluation guess (:code this))))
+  (get-feedback [this guess] (get-feedback guess this)))
 
 
 (comment

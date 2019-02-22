@@ -8,6 +8,12 @@
 (defn new-code-breaker [level]
   (->CodeBreaker (atom (combination/all-combinations level))))
 
+(defn get-next-guess [cb] (rand-nth @(:possible-solutions cb)))
+
+(defn notify
+  [cb guess feeback]
+  (swap! (:possible-solutions cb) filter-solutions guess feeback))
+
 (defrecord ^:private CodeBreaker [possible-solutions])
 
 (defn ^:private filter-solutions [solutions guess feedback]
@@ -15,6 +21,21 @@
 
 (extend-type CodeBreaker
   domain/CodeBreaker
-  (get-next-guess [this] (rand-nth @(:possible-solutions this)))
-  (notify [this guess feeback]
-    (swap! (:possible-solutions this) filter-solutions guess feeback)))
+  (get-next-guess [this] (get-next-guess this))
+  (notify [this guess feeback] (notify this guess feeback)))
+
+
+(comment
+  (defprotocol P
+    (foo [this]))
+  (defrecord R [])
+  (extend-type R
+    P
+    (foo [this] :first))
+  (foo (->R)) ;; :first
+  (extend-type R
+    P
+    (foo [_] :second))
+  (foo (->R)) ;; :first -- the second implementation is silently ignored 
+
+  )

@@ -14,7 +14,9 @@
                        (let [result (domain/get-next-guess cb)]
                          (println result)
                          result))
-                     (notify [this guess feedback] (domain/notify cb guess feedback))))
+                     (notify [this guess feedback]
+                       (println feedback)
+                       (domain/notify cb guess feedback))))
    :code-maker (machine-cm/new-code-maker default-level)})
 
 (comment

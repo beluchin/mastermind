@@ -51,4 +51,25 @@
         @result)))
 
   ((sync-fn call-service) 8 7)
+
+  ;; trying to mock a specific implementation of a protocol
+  (defprotocol P
+    (foo [p]))
+  (defrecord R1 [])
+  (defrecord R2 [])
+  (extend-protocol P
+    R1
+    (foo [_] :r1)
+    R2
+    (foo [_] :r2))
+  
+  (foo (->R1)) ;; :r1
+  (foo (->R2)) ;; :r2
+  
+  (with-redefs [foo (constantly :redefed)]
+    (foo (->R1))) ;; :redefed
+
+  (with-redefs [foo (constantly :redefed)]
+    (foo (->R2))) ;; :redefed
+
 )

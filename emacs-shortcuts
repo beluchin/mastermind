@@ -4,6 +4,7 @@ C-e C-m | move to end of line and add new line.
 C-e C-j | same as above and indent
 M-SPC | just-one-space
 M-\ | join two words
+C-S-BACK | kill-whole-line
 
 
 --- projectile
