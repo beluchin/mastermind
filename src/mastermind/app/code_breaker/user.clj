@@ -5,6 +5,22 @@
             [mastermind.domain.utils :as domain-utils]
             [validation :as v]))
 
+(declare ->CodeBreaker)
+
+(defn new-code-breaker [level] (->CodeBreaker level))
+
+(declare no-zero-in-front an-int correct-number-of-digits
+         check-duplicates)
+
+(defn guess-or-error [level txt]
+  (validation/ensure-> txt
+              no-zero-in-front
+              an-int
+              (correct-number-of-digits level)
+              (check-duplicates level)))
+
+(defrecord ^:private CodeBreaker [level])
+
 (def ^:private errors-in-spanish
   {:not-a-number "hmm, solo numeros"
    :zero-in-front "no se permiten ceros al inicio"
@@ -37,13 +53,6 @@
     {:error :dups}
     n))
 
-(defn guess-or-error [level txt]
-  (validation/ensure-> txt
-              no-zero-in-front
-              an-int
-              (correct-number-of-digits level)
-              (check-duplicates level)))
-
 (defrecord ^:private CodeBreaker [level])
 
 (extend-type CodeBreaker
@@ -53,4 +62,4 @@
                                  (partial guess-or-error (:level this))))
   (notify [_ _ feedback] (console/display feedback)))
 
-(defn new-code-breaker [level] (->CodeBreaker level))
+
