@@ -13,4 +13,5 @@
         "01234" :zero-in-front
         "1234" :too-many-digits
         "112" :dups ;; because the level does not allow dups
+        "701" :digit-out-range
         ))))

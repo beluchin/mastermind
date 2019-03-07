@@ -10,14 +10,29 @@
 (defn new-code-breaker [level] (->CodeBreaker level))
 
 (declare no-zero-in-front an-int correct-number-of-digits
-         check-duplicates)
+         check-duplicates digits-in-range)
 
 (defn guess-or-error [level txt]
   (validation/ensure-> txt
               no-zero-in-front
               an-int
               (correct-number-of-digits level)
-              (check-duplicates level)))
+              (check-duplicates level)
+              (digits-in-range level)))
+
+(defn ^:private digits [n]
+  "1234 -> (seq [1 2 3 4])
+  https://stackoverflow.com/a/29942388/614800"
+  (->> n
+       (iterate #(quot % 10))
+       (take-while pos?)
+       (mapv #(mod % 10))
+       rseq))
+
+(defn ^:private digits-in-range [n level]
+  (if (every? (:digits level) (digits n))
+    n
+    {:error :digit-out-range}))
 
 (defrecord ^:private CodeBreaker [level])
 
@@ -26,6 +41,7 @@
    :zero-in-front "no se permiten ceros al inicio"
    :too-many-digits "muchos digitos. Son menos"
    :dups "sin repetidos"
+   :digit-out-range "un digito esta fuera del rango"
    :default "algo no esta bien"})
 
 (defn ^:private an-int [s]
