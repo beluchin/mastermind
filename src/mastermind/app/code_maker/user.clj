@@ -5,7 +5,8 @@
             [mastermind.domain :as domain]
             [validation :as validation]))
 
-(declare ->CodeMaker two-tokens only-digits feedback sum-check)
+(declare ->CodeMaker two-tokens only-digits feedback
+         sum-check all-but-one-ok-is-illegal)
 
 (defn new-code-maker [level] (->CodeMaker level))
 
@@ -14,13 +15,20 @@
                        two-tokens
                        only-digits
                        feedback
-                       (sum-check level)))
+                       (sum-check level)
+                       (all-but-one-ok-is-illegal level)))
 
 (def ^:private errors-in-spanish
   {:default "algo no esta bien"
    :two-tokens "solo 2 resultados: ok y so-so"
    :only-digits "solo digitos, si?"
-   :add-up-to-too-much "la suma de las respuestas es muy grande"})
+   :add-up-to-too-much "la suma de las respuestas es muy grande"
+   :all-but-one-ok "no es posible tener un solo so-so y los demas ok"})
+
+(defn ^:private all-but-one-ok-is-illegal [{:keys [ok so-so] :as feedback} level]
+  (if (or (not= ok (dec (:num-digits level))) (not= 1 so-so))
+    feedback
+    {:error :all-but-one-ok}))
 
 (defn ^:private sum-check [{:keys [ok so-so] :as feedback} level]
   (if (<= (+ ok so-so) (:num-digits level))

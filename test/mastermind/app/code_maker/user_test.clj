@@ -11,4 +11,5 @@
       (t/are [in out] (= out (:error (sut/feedback-or-error level in)))
         "more than two tokens" :two-tokens
         "123 not-a-digit" :only-digits
-        "4 0" :add-up-to-too-much))))
+        "4 0" :add-up-to-too-much
+        "2 1" :all-but-one-ok))))
