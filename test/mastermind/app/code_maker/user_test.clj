@@ -3,10 +3,12 @@
             [clojure.test :as t]))
 
 (t/deftest feedback-or-error
-  (t/testing "converts two tokens to int"
-    (t/is (= (sut/feedback-or-error "1 1") {:ok 1 :so-so 1})))
+  (let [level {:num-digits 3, :dups false, :digits (set (range 0 6))}]
+    (t/testing "converts two tokens to int"
+      (t/is (= (sut/feedback-or-error level "1 1") {:ok 1 :so-so 1})))
 
-  (t/testing "error conditions"
-    (t/are [in out] (= out (:error (sut/feedback-or-error in)))
-      "more than two tokens" :two-tokens
-      "123 not-a-digit" :only-digits)))
+    (t/testing "error conditions"
+      (t/are [in out] (= out (:error (sut/feedback-or-error level in)))
+        "more than two tokens" :two-tokens
+        "123 not-a-digit" :only-digits
+        "4 0" :add-up-to-too-much))))

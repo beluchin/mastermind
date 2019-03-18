@@ -5,14 +5,27 @@
             [mastermind.domain :as domain]
             [validation :as validation]))
 
-(declare ->CodeMaker)
+(declare ->CodeMaker two-tokens only-digits feedback sum-check)
 
 (defn new-code-maker [level] (->CodeMaker level))
+
+(defn feedback-or-error [level txt]
+  (validation/ensure-> txt
+                       two-tokens
+                       only-digits
+                       feedback
+                       (sum-check level)))
 
 (def ^:private errors-in-spanish
   {:default "algo no esta bien"
    :two-tokens "solo 2 resultados: ok y so-so"
-   :only-digits "solo digitos, si?"})
+   :only-digits "solo digitos, si?"
+   :add-up-to-too-much "la suma de las respuestas es muy grande"})
+
+(defn ^:private sum-check [{:keys [ok so-so] :as feedback} level]
+  (if (<= (+ ok so-so) (:num-digits level))
+    feedback
+    {:error :add-up-to-too-much}))
 
 (defn ^:private feedback [[ok so-so]] {:ok ok :so-so so-so})
 
@@ -28,12 +41,6 @@
     (if (every? digit? integers)
       integers
       {:error :only-digits})))
-
-(defn feedback-or-error [txt]
-  (validation/ensure-> txt
-                       two-tokens
-                       only-digits
-                       feedback))
 
 (defrecord ^:private CodeMaker [level])
 
